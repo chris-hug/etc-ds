@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETC Solutions — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Google+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ── Fonts ── */
+    --font-sans:  'Google Sans', sans-serif;
+    --font-serif: 'Lora', serif;
+
+    /* ── Sizes (font/size) ── */
+    --size-xxs:11px; --size-xs:12px; --size-sm:14px; --size-base:16px; --size-lg:18px;
+    --size-xl:20px; --size-2xl:24px; --size-3xl:30px; --size-4xl:36px; --size-5xl:48px;
+    --size-6xl:60px; --size-7xl:72px; --size-8xl:96px; --size-9xl:128px;
+
+    /* ── Fluid sizes (token = max, anchored 375→832) ── */
+    --fluid-2xl: clamp(20px, 16.7px + 0.88vw,  var(--size-2xl));
+    --fluid-3xl: clamp(23px, 17.3px + 1.53vw,  var(--size-3xl));
+    --fluid-4xl: clamp(26px, 17.8px + 2.19vw,  var(--size-4xl));
+    --fluid-5xl: clamp(30px, 15.2px + 3.94vw,  var(--size-5xl));
+    --fluid-6xl: clamp(34px, 12.7px + 5.69vw,  var(--size-6xl));
+    --fluid-7xl: clamp(42px, 17.4px + 6.56vw,  var(--size-7xl));
+    --fluid-8xl: clamp(48px, 8.6px + 10.50vw,  var(--size-8xl));
+    --fluid-9xl: clamp(56px, -3.1px + 15.75vw, var(--size-9xl));
+
+    /* ── Line heights ── */
+    --leading-4:16px; --leading-5:20px; --leading-6:24px; --leading-7:28px; --leading-9:40px;
+
+    /* ── Letter spacing ── */
+    --tracking-tighter:-0.8px; --tracking-tight:-0.4px; --tracking-normal:0px;
+    --tracking-wide:0.4px; --tracking-wider:0.8px; --tracking-widest:1.6px;
+
+    /* ── Base colors ── */
+    --text-heading:#1b1c18; --text-body:#50504a; --text-body-subtle:#9f9e94; --text-fg-accent:#f16d39;
+    --border-base:#e3e2d9; --border-hair:#e9e9e4;
+    --bg-primary:#fcfbf8; --bg-card:#ffffff; --bg-placeholder:#ecebe4;
+    --bg-secondary-medium:#fcfbf8; --bg-quaternary:#e3e2d9;
+
+    /* ── Badge semantic colors ── */
+    --text-fg-brand-strong:#050c52; --bg-brand-softer:#f0f5ff; --bg-brand-soft:#e0eaff; --border-brand-subtle:#c6d8ff; --bg-brand:#0d42e5; --bg-brand-strong:#02042e; --bg-brand-medium:#c6d8ff;
+    /* button states */
+    --bg-tertiary:#f2f1ec; --border-base-strong:#cfcec4; --bg-disabled:#f2f1ec; --text-fg-disabled:#b8b7ad;
+    --text-fg-success-strong:#004f3b; --bg-success-soft:#ecfdf5; --bg-success-medium:#d0fae5; --border-success-subtle:#a4f4cf; --bg-success:#007a55;
+    --text-fg-warning:#470000; --bg-warning-soft:#fff3ec; --bg-warning-medium:#ffe3d7; --border-warning-subtle:#ffcab4; --bg-warning:#df4a00;
+    --text-fg-danger-strong:#8b0836; --bg-danger-soft:#fef0f2; --bg-danger-medium:#ffe4e6; --border-danger-subtle:#ffccd3; --bg-danger:#c70036;
+    /* misc semantic tokens (used by components — no raw hex below this line) */
+    --white:#ffffff;
+    --bg-accent-soft:#fdeee7; --border-accent-subtle:#f7d9c9;
+    --bg-tag-success:#e4f0de; --text-tag-success:#3c5e2e; --bg-tag-neutral:#efeee8;
+    --fg-placeholder:#b8b2a8; --bg-media-fallback:#d9dde2; --bg-code:#f0efe9;
+    --overlay-subtle:rgba(0,0,0,0.06); --bg-topbar:rgba(252,251,248,0.8);
+
+    /* ── Spacing ── */
+    --space-1-5:6px; --space-2-5:10px; --space-4:16px; --space-5:20px; --space-8:32px; --space-20:80px; --space-24:96px;
+
+    /* ── Radius / shadow ── */
+    --radius-base:8px; --radius-full:9999px;
+    --shadow-xs:0 1px 0.5px 0 rgba(29,41,61,0.02);
+    --card-shadow:0 1px 2px rgba(16,24,40,0.04), 0 6px 18px rgba(16,24,40,0.05);
+    --card-shadow-hover:0 2px 4px rgba(16,24,40,0.05), 0 12px 28px rgba(16,24,40,0.08);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  .sec { scroll-margin-top:78px; }
+  body {
+    background:var(--bg-primary); color:var(--text-heading); font-family:var(--font-sans);
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; padding-bottom:120px;
+  }
+  .wrap { max-width:1160px; margin:0 auto; padding:0 40px; }
+  @media (max-width:600px){ .wrap{ padding:0 20px; } }
+  code { font-family:'Google Sans',monospace; font-size:0.9em; background:var(--bg-code); padding:1px 5px; border-radius:5px; }
+
+  /* ── Hero ── */
+  .hero { padding:56px 0 8px; }
+  .eyebrow { font-size:14px; color:var(--text-body-subtle); margin-bottom:8px; }
+  .hero-title { font-family:var(--font-serif); font-size:var(--fluid-6xl); font-weight:400; letter-spacing:var(--tracking-tighter); line-height:1.05; }
+  .hero-intro { font-size:16px; line-height:1.6; color:var(--text-body); max-width:640px; margin-top:16px; }
+  /* Sticky header navigation */
+  .topbar { position:sticky; top:0; z-index:100; background:var(--bg-topbar); backdrop-filter:saturate(180%) blur(12px); -webkit-backdrop-filter:saturate(180%) blur(12px); border-bottom:1px solid var(--border-hair); }
+  .topbar-inner { max-width:1160px; margin:0 auto; padding:0 40px; height:60px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+  .topbar-brand { font-family:var(--font-serif); font-size:16px; font-weight:500; letter-spacing:var(--tracking-tight); color:var(--text-heading); text-decoration:none; white-space:nowrap; }
+  .topnav { display:flex; align-items:center; gap:26px; overflow-x:auto; scrollbar-width:none; }
+  .topnav::-webkit-scrollbar { display:none; }
+  .topnav a { position:relative; padding:6px 0; font-family:var(--font-sans); font-size:14px; line-height:1; color:var(--text-body-subtle); text-decoration:none; white-space:nowrap; transition:color .18s ease; }
+  .topnav a:hover { color:var(--text-body); }
+  .topnav a.active { color:var(--text-heading); }
+  .topnav a::after { content:""; position:absolute; left:0; right:0; bottom:0; height:2px; border-radius:2px; background:var(--text-fg-accent); opacity:0; transform:scaleX(0); transition:opacity .18s ease, transform .18s ease; }
+  .topnav a.active::after { opacity:1; transform:scaleX(1); }
+  @media (max-width:680px) {
+    .topbar-inner { padding:0 20px; gap:16px; }
+    .topbar-brand { display:none; }
+    .topnav { gap:20px; }
+  }
+
+  /* ── Section / sub-group ── */
+  .sec { padding-top:80px; margin-top:80px; border-top:1px solid var(--border-hair); }
+  .sec-head { margin-bottom:8px; }
+  .sec-kicker { font-size:12px; font-weight:500; color:var(--text-fg-accent); margin-bottom:8px; letter-spacing:.01em; }
+  .sec-title { font-family:var(--font-serif); font-size:var(--fluid-4xl); font-weight:400; letter-spacing:var(--tracking-tight); }
+  .sec-note { font-size:15px; line-height:1.6; color:var(--text-body); max-width:640px; margin-top:12px; }
+
+  .sub { margin-top:48px; }
+  .sub-head { padding-top:22px; border-top:1px solid var(--border-hair); margin-bottom:24px; }
+  .sub-kicker { font-size:12px; font-weight:500; color:var(--text-fg-accent); margin-bottom:6px; }
+  .sub-title { font-family:var(--font-serif); font-size:24px; font-weight:400; letter-spacing:var(--tracking-tight); }
+  .sub-note { font-size:13px; line-height:1.55; color:var(--text-body-subtle); margin-top:8px; max-width:640px; }
+
+  /* ── Typography spec rows ── */
+  .row { display:grid; grid-template-columns:232px 1fr; gap:80px; padding:18px 0 40px; border-bottom:1px solid var(--border-hair); align-items:start; }
+  .meta .style-name { font-family:var(--font-sans); font-size:14px; font-weight:500; color:var(--text-heading); margin-bottom:14px; }
+  .meta dl { display:grid; gap:6px; }
+  .meta-line { font-family:var(--font-sans); font-size:12px; line-height:1.5; color:var(--text-body-subtle); }
+  .meta-line .v { color:var(--text-body); }
+  .meta-line .r { color:var(--text-heading); }
+  .meta-line .r::before { content:"→ "; color:var(--text-body-subtle); }
+  .usage { display:inline-block; margin-top:12px; font-family:var(--font-sans); font-size:11px; font-weight:500; padding:3px 9px; border-radius:20px; white-space:nowrap; }
+  .usage.editorial { color:var(--text-tag-success); background:var(--bg-tag-success); }
+  .usage.component { color:var(--text-body); background:var(--bg-tag-neutral); }
+  .sample { color:var(--text-heading); min-width:0; }
+
+  .e-h1 { font-family:var(--font-serif); font-weight:400; font-size:var(--fluid-6xl); line-height:1.0;   letter-spacing:-0.0133em; }
+  .e-h2 { font-family:var(--font-serif); font-weight:400; font-size:var(--fluid-4xl); line-height:1.111; letter-spacing:-0.0111em; }
+  .e-h3 { font-family:var(--font-serif); font-weight:400; font-size:var(--fluid-2xl); line-height:1.167; letter-spacing:-0.0167em; }
+  .e-h4 { font-family:var(--font-serif); font-weight:400; font-size:var(--size-xl);   line-height:24px; letter-spacing:var(--tracking-tight); }
+  .e-h5 { font-family:var(--font-serif); font-weight:400; font-size:var(--size-lg);   line-height:24px; letter-spacing:var(--tracking-tight); }
+  .e-h6 { font-family:var(--font-serif); font-weight:400; font-size:var(--size-base); line-height:20px; letter-spacing:var(--tracking-tight); }
+  .e-quote { font-family:var(--font-serif); font-weight:400; font-style:italic; font-size:var(--size-base); line-height:20px; letter-spacing:var(--tracking-tight); }
+  .e-body  { font-family:var(--font-sans); font-weight:400; font-size:var(--size-base); line-height:24px; max-width:340px; }
+  .e-label { font-family:var(--font-sans); font-weight:400; font-size:var(--size-sm);   line-height:20px; max-width:340px; }
+
+  .s-sample { font-family:var(--font-sans); font-weight:400; line-height:1.1; white-space:nowrap; }
+  .s-9xl{font-size:var(--fluid-9xl)} .s-8xl{font-size:var(--fluid-8xl)} .s-7xl{font-size:var(--fluid-7xl)}
+  .s-6xl{font-size:var(--fluid-6xl)} .s-5xl{font-size:var(--fluid-5xl)} .s-4xl{font-size:var(--fluid-4xl)}
+  .s-3xl{font-size:var(--fluid-3xl)} .s-2xl{font-size:var(--fluid-2xl)} .s-xl{font-size:var(--size-xl)}
+  .s-lg{font-size:var(--size-lg)} .s-base{font-size:var(--size-base)} .s-sm{font-size:var(--size-sm)}
+  .s-xs{font-size:var(--size-xs)} .s-xxs{font-size:var(--size-xxs)}
+
+  .live-size {
+    display:block; width:fit-content; margin-top:16px;
+    font-family:var(--font-sans); font-size:11px; font-weight:500; font-style:normal; line-height:1; letter-spacing:0;
+    color:var(--text-fg-accent); background:var(--bg-accent-soft); border:1px solid var(--border-accent-subtle); border-radius:20px;
+    padding:4px 9px; white-space:nowrap; font-variant-numeric:tabular-nums;
+  }
+
+  .ref-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+  .ref-table { width:100%; border-collapse:collapse; }
+  .ref-table caption { text-align:left; font-family:var(--font-sans); font-size:13px; font-weight:500; color:var(--text-heading); padding-bottom:10px; }
+  .ref-table td { font-family:var(--font-sans); font-size:13px; padding:7px 0; border-bottom:1px solid var(--border-hair); color:var(--text-body); }
+  .ref-table td:first-child { color:var(--text-body-subtle); }
+  .ref-table td:last-child { text-align:right; color:var(--text-heading); }
+
+  /* ── Button ── */
+  .btn {
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    font-family:var(--font-sans); font-size:var(--size-sm); font-weight:500; line-height:20px;
+    padding:10px 20px; border-radius:var(--radius-base); border:1px solid transparent;
+    cursor:pointer; text-decoration:none; white-space:nowrap;
+    transition:background .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease;
+  }
+  .btn svg { width:16px; height:16px; flex-shrink:0; }
+  .btn:focus-visible { outline:none; }
+
+  /* Primary (Flowbite "Brand") */
+  .btn-primary { background:var(--bg-brand); color:var(--white); }
+  .btn-primary:hover, .btn-primary.is-hover { background:var(--bg-brand-strong); }
+  .btn-primary:focus-visible { box-shadow:0 0 0 3px var(--bg-brand-medium); }
+
+  /* Secondary (Flowbite "Tertiary") */
+  .btn-secondary { background:var(--bg-card); color:var(--text-heading); border-color:var(--border-base); box-shadow:var(--shadow-xs); }
+  .btn-secondary:hover, .btn-secondary.is-hover { background:var(--bg-tertiary); border-color:var(--border-base-strong); }
+  .btn-secondary:focus-visible { box-shadow:0 0 0 3px var(--bg-tertiary); }
+
+  /* Ghost */
+  .btn-ghost { background:transparent; color:var(--text-body); }
+  .btn-ghost:hover, .btn-ghost.is-hover { background:var(--bg-tertiary); color:var(--text-heading); }
+  .btn-ghost:focus-visible { box-shadow:0 0 0 3px var(--bg-tertiary); }
+
+  /* Disabled — uniform (bg-disabled + text-fg-disabled) */
+  .btn:disabled, .btn.is-disabled { background:var(--bg-disabled); color:var(--text-fg-disabled); border-color:transparent; box-shadow:none; cursor:not-allowed; pointer-events:none; }
+  .btn-ghost:disabled, .btn-ghost.is-disabled { background:transparent; }
+
+  /* Sizes — base is the default .btn (text-sm, py-2.5 px-5) */
+  .btn-xs { padding:8px 12px; font-size:var(--size-xs); }
+  .btn-sm { padding:8px 12px; font-size:var(--size-sm); }
+  .btn-lg { padding:12px 20px; font-size:var(--size-base); }
+  .btn-xl { padding:14px 24px; font-size:var(--size-base); }
+  .btn-xs svg, .btn-sm svg { width:14px; height:14px; }
+  .btn-lg svg, .btn-xl svg { width:18px; height:18px; }
+
+  .btn-grid { display:grid; grid-template-columns:96px repeat(3, max-content); gap:18px 28px; align-items:center; }
+  .btn-grid .col-head { font-family:var(--font-sans); font-size:12px; color:var(--text-body-subtle); }
+  .btn-grid .row-head { font-family:var(--font-sans); font-size:13px; font-weight:500; color:var(--text-heading); }
+  @media (max-width:600px){ .btn-grid { grid-template-columns:1fr; gap:10px; } .btn-grid .col-head { display:none; } .btn-grid .row-head { margin-top:16px; } }
+
+  /* ── Badge ── */
+  .badge-row { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+  /* The single badge we currently use (neutral), with or without a leading icon */
+  .badge { display:inline-flex; align-items:center; gap:6px; font-family:var(--font-sans); font-weight:400; font-size:var(--size-xs); line-height:var(--leading-4); color:var(--text-body); background:var(--bg-secondary-medium); border:1px solid var(--border-base); border-radius:var(--radius-full); padding:2px 10px; white-space:nowrap; }
+  .badge svg { width:12px; height:12px; flex-shrink:0; color:var(--text-body-subtle); }
+
+  /* ── Card ── */
+  .grid { display:grid; grid-template-columns:1fr; gap:24px; align-items:start; }
+  @media (min-width:640px)  { .grid { grid-template-columns:repeat(2,1fr); } }
+  @media (min-width:1024px) { .grid { grid-template-columns:repeat(4,1fr); } }
+  .variant { display:flex; flex-direction:column; }
+  .variant-label { font-family:var(--font-sans); font-size:12px; color:var(--text-body-subtle); margin-bottom:10px; letter-spacing:.01em; }
+  .card { background:var(--bg-card); border:1px solid var(--border-base); border-radius:var(--radius-base); padding:24px; display:flex; flex-direction:column; }
+  .card-media { aspect-ratio:16/9; background:var(--bg-placeholder); border-radius:var(--radius-base); display:flex; align-items:center; justify-content:center; margin-bottom:20px; }
+  .card-media svg { width:40px; height:40px; color:var(--fg-placeholder); }
+  .card-overline { font-family:var(--font-sans); font-size:var(--size-sm); font-weight:500; line-height:1.3; color:var(--text-fg-accent); margin-bottom:8px; }
+  .card-title { font-family:var(--font-serif); font-size:var(--size-xl); font-weight:400; line-height:1.25; letter-spacing:var(--tracking-tight); color:var(--text-heading); margin-bottom:8px; }
+  .card-body { font-family:var(--font-sans); font-size:var(--size-sm); font-weight:400; line-height:20px; color:var(--text-body); margin-bottom:16px; }
+  .card-badges { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
+  .card-link { font-family:var(--font-sans); font-size:var(--size-sm); font-weight:500; color:var(--text-heading); text-decoration:none; display:inline-flex; align-items:center; gap:6px; align-self:flex-start; }
+  .card-link svg { width:14px; height:14px; transition:transform .18s ease; }
+  .card-link:hover svg, .card:hover .card-link svg { transform:translateX(4px); }
+
+  /* ── Content block ── */
+  .cb-block { display:flex; flex-direction:column; gap:var(--space-8); align-items:flex-start; }
+  @media (min-width:768px) { .cb-block { flex-direction:row; gap:40px; } }
+  @media (min-width:1024px) { .cb-block { gap:var(--space-20); } }
+  .cb-media { width:100%; aspect-ratio:528/421; border-radius:var(--radius-base); overflow:hidden; background:var(--bg-media-fallback); flex-shrink:0; }
+  .cb-media img { display:block; width:100%; height:100%; object-fit:cover; }
+  @media (min-width:768px) { .cb-media { flex:1 1 0; max-width:528px; } }
+  .cb-content { width:100%; display:flex; flex-direction:column; gap:var(--space-8); align-items:flex-start; }
+  @media (min-width:768px) { .cb-content { flex:1 1 0; max-width:672px; } }
+  .cb-hg { display:flex; flex-direction:column; gap:var(--space-4); width:100%; }
+  .cb-overline { font-family:var(--font-sans); font-size:var(--size-sm); font-weight:500; line-height:1.25; color:var(--text-fg-accent); }
+  .cb-heading { font-family:var(--font-serif); font-size:var(--fluid-4xl); font-weight:400; line-height:1.25; letter-spacing:-0.0111em; color:var(--text-heading); }
+  .cb-body { font-family:var(--font-sans); font-size:var(--size-base); font-weight:400; line-height:24px; color:var(--text-body); }
+  .cb-list { display:flex; flex-direction:column; gap:var(--space-4); width:100%; list-style:none; }
+  .cb-list-item { display:flex; align-items:center; gap:var(--space-1-5); }
+  .cb-list-item .icon { width:20px; height:20px; flex-shrink:0; color:var(--text-fg-accent); }
+  .cb-list-item .icon svg { display:block; width:100%; height:100%; }
+  .cb-list-item span { font-family:var(--font-sans); font-size:var(--size-base); line-height:24px; color:var(--text-body); }
+  .cb-btn { display:inline-flex; align-items:center; justify-content:center; gap:var(--space-1-5); padding:var(--space-2-5) var(--space-4); border:1px solid var(--border-base); border-radius:var(--radius-base); box-shadow:var(--shadow-xs); background:var(--bg-card); cursor:pointer; text-decoration:none; transition:background .15s ease, border-color .15s ease; }
+  .cb-btn:hover { background:var(--bg-tertiary); border-color:var(--border-base-strong); }
+  .cb-btn span { font-family:var(--font-sans); font-size:var(--size-sm); font-weight:500; line-height:20px; color:var(--text-body); white-space:nowrap; }
+  .cb-btn .icon { width:16px; height:16px; flex-shrink:0; color:var(--text-body); }
+  .cb-btn .icon svg { display:block; width:100%; height:100%; }
+
+  @media (max-width:720px) {
+    .row { grid-template-columns:1fr; gap:16px; padding-bottom:28px; }
+    .ref-grid { grid-template-columns:1fr; gap:32px; }
+    .s-sample { white-space:normal; }
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="#top" class="topbar-brand">ETC Design System</a>
+      <nav class="topnav" aria-label="Sections">
+        <a href="#typography">Typography</a>
+        <a href="#button">Button</a>
+        <a href="#badge">Badge</a>
+        <a href="#card">Card</a>
+        <a href="#content-block">Content</a>
+      </nav>
+    </div>
+  </header>
+  <div class="wrap" id="top">
+
+    <header class="hero">
+      <p class="eyebrow">ETC Solutions — Component Library</p>
+      <h1 class="hero-title">Design System</h1>
+      <p class="hero-intro">A living showcase of the ETC Solutions design system — typography tokens with fluid sizing, and the core components built from them. Every element on this page references the shared Flowbite token set.</p>
+    </header>
+
+    <!-- ══════════ TYPOGRAPHY ══════════ -->
+    <section class="sec" id="typography">
+      <div class="sec-head">
+        <p class="sec-kicker">Foundations</p>
+        <h2 class="sec-title">Typography</h2>
+        <p class="sec-note">Two families — <strong>Lora</strong> (serif) for headings &amp; quotes, <strong>Google Sans</strong> for everything else. Editorial styles are kept separate from the raw size scale; sizes ≥ 24px scale fluidly with the token value as the ceiling.</p>
+      </div>
+
+      <!-- Editorial -->
+      <div class="sub">
+        <div class="sub-head"><p class="sub-kicker">Redaktionell verfügbar</p><h3 class="sub-title">Editorial Text Styles</h3><p class="sub-note">Nine named styles. Headings &amp; Quote use Lora; body &amp; label use Google Sans. h1–h3 are fluid.</p></div>
+
+        <div class="row"><div class="meta"><div class="style-name">h1</div><dl>
+          <div class="meta-line">font-family: <span class="v">serif</span> <span class="r">Lora</span></div>
+          <div class="meta-line">size: <span class="v">text-6xl</span> <span class="r">60px max · fluid ↓34px</span></div>
+          <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
+          <div class="meta-line">tracking: <span class="v">tracking-tighter</span> <span class="r">-0.8px</span></div>
+          <div class="meta-line">line-height: <span class="v">leading-none</span> <span class="r">60px</span></div>
+        </dl></div><div class="sample e-h1">ÖPNV kennt viele Systeme. ETC verbindet sie alle.</div></div>
+
+        <div class="row"><div class="meta"><div class="style-name">h2</div><dl>
+          <div class="meta-line">font-family: <span class="v">serif</span> <span class="r">Lora</span></div>
+          <div class="meta-line">size: <span class="v">text-4xl</span> <span class="r">36px max · fluid ↓26px</span></div>
+          <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
+          <div class="meta-line">tracking: <span class="v">tracking-tight</span> <span class="r">-0.4px</span></div>
+          <div class="meta-line">line-height: <span class="v">leading-9</span> <span class="r">40px</span></div>
+        </dl></div><div class="sample e-h2">Die Digitalisierung des ÖV beginnt mit dem Fahrzeug</div></div>
+
+        <div class="row"><div class="meta"><div class="style-name">h3</div><dl>
+          <div class="meta-line">font-family: <span class="v">serif</span> <span class="r">Lora</span></div>
+          <div class="meta-line">size: <span class="v">text-2xl</span> <span class="r">24px max · fluid ↓20px</span></div>
+          <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
+          <div class="meta-line">tracking: <span class="v">tracking-tight</span> <span class="r">-0.4px</span></div>
+          <div class="meta-line">line-height: <span class="v">leading-7</span> <span class="r">28px</span></div>
+        </dl></div><div class="sample e-h3">Die Digitalisierung des ÖV beginnt mit dem Fahrzeug</div></div>
+
+        <div class="row"><div class="meta"><div class="style-name">h4</div><dl>
+          <div class="meta-line">font-family: <span class="v">serif</span> <span class="r">Lora</span></div>
+          <div class="meta-line">size: <span class="v">text-xl</span> <span class="r">20px</span></div>
+          <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
+          <div class="meta-line">tracking: <span class="v">tracking-tight</span> <span class="r">-0.4px</span></div>
+          <div class="meta-line">line-height: <span class="v">leading-6</span> <span class="r">24px</span></div>
+        </dl></div><div class="sample e-h4">Die Digitalisierung des ÖV beginnt mit dem Fahrzeug</div></div>
+
+        <div class="row"><div class="meta"><div class="style-name">h5</div><dl>
+          <div class="meta-line">font-family: <span class="v">serif</span> <span class="r">Lora</span></div>
+          <div class="meta-line">size: <span class="v">text-lg</span> <span class="r">18px</span></div>
+          <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
+          <div class="meta-line">tracking: <span class="v">tracking-tight</span> <span class="r">-0.4px</span></div>
+          <div class="meta-line">line-height: <span class="v">leading-6</span> <span class="r">24px</span></div>
+        </dl></div><div class="sample e-h5">Die Digitalisierung des ÖV beginnt mit dem Fahrzeug</div></div>
+
+        <div class="row"><div class="meta"><div class="style-name">h6</div><dl>
+          <div class="meta-line">font-family: <span class="v">serif</span> <span class="r">Lora</span></div>
+          <div class="meta-line">size: <span class="v">text-base</span> <span class="r">16px</span></div>
+          <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
+          <div class="meta-line">tracking: <span class="v">tracking-tight</span> <span class="r">-0.4px</span></div>
+          <div class="meta-line">line-height: <span class="v">leading-5</span> <span class="r">20px</span></div>
+        </dl></div><div class="sample e-h6">Die Digitalisierung des ÖV beginnt mit dem Fahrzeug</div></div>
+
+        <div class="row"><div class="meta"><div class="style-name">Quote</div><dl>
+          <div class="meta-line">font-family: <span class="v">italic</span> <span class="r">Lora Italic</span></div>
+          <div class="meta-line">size: <span class="v">text-base</span> <span class="r">16px</span></div>
+          <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400 · italic</span></div>
+          <div class="meta-line">tracking: <span class="v">tracking-tight</span> <span class="r">-0.4px</span></div>
+          <div class="meta-line">line-height: <span class="v">leading-5</span> <span class="r">20px</span></div>
+        </dl></div><div class="sample e-quote">Die Digitalisierung des ÖV beginnt mit dem Fahrzeug</div></div>
+
+        <div class="row"><div class="meta"><div class="style-name">body</div><dl>
+          <div class="meta-line">font-family: <span class="v">sans</span> <span class="r">Google Sans</span></div>
+          <div class="meta-line">size: <span class="v">text-base</span> <span class="r">16px</span></div>
+          <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
+          <div class="meta-line">tracking: <span class="v">tracking-normal</span> <span class="r">0px</span></div>
+          <div class="meta-line">line-height: <span class="v">leading-6</span> <span class="r">24px</span></div>
+        </dl></div><div class="sample e-body">We are an open-source library of over 4k+ web components and interactive elements built with the utility classes from Flowbite.</div></div>
+
+        <div class="row"><div class="meta"><div class="style-name">label</div><dl>
+          <div class="meta-line">font-family: <span class="v">sans</span> <span class="r">Google Sans</span></div>
+          <div class="meta-line">size: <span class="v">text-sm</span> <span class="r">14px</span></div>
+          <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
+          <div class="meta-line">tracking: <span class="v">tracking-normal</span> <span class="r">0px</span></div>
+          <div class="meta-line">line-height: <span class="v">leading-5</span> <span class="r">20px</span></div>
+        </dl></div><div class="sample e-label">We are an open-source library of over 4k+ web components and interactive elements built with the utility classes from Flowbite.</div></div>
+      </div>
+
+      <!-- Type scale -->
+      <div class="sub">
+        <div class="sub-head"><p class="sub-kicker">Primitives · font / size</p><h3 class="sub-title">Type Scale — all sizes</h3><p class="sub-note">All 14 size tokens. Tags show editorial vs component-only use. Sizes ≥ 24px are fluid; the live chip shows the current rendered size.</p></div>
+
+        <div class="row"><div class="meta"><div class="style-name">9xl</div><dl><div class="meta-line">value: <span class="r">128px</span></div><div class="meta-line">responsive: <span class="r">fluid ↓56px</span></div></dl><span class="usage component">component-only</span></div><div class="sample s-sample s-9xl">ÖPNV</div></div>
+        <div class="row"><div class="meta"><div class="style-name">8xl</div><dl><div class="meta-line">value: <span class="r">96px</span></div><div class="meta-line">responsive: <span class="r">fluid ↓48px</span></div></dl><span class="usage component">component-only</span></div><div class="sample s-sample s-8xl">ÖPNV</div></div>
+        <div class="row"><div class="meta"><div class="style-name">7xl</div><dl><div class="meta-line">value: <span class="r">72px</span></div><div class="meta-line">responsive: <span class="r">fluid ↓42px</span></div></dl><span class="usage component">component-only</span></div><div class="sample s-sample s-7xl">ÖPNV</div></div>
+        <div class="row"><div class="meta"><div class="style-name">6xl</div><dl><div class="meta-line">value: <span class="r">60px</span></div><div class="meta-line">responsive: <span class="r">fluid ↓34px</span></div></dl><span class="usage editorial">editorial · h1</span></div><div class="sample s-sample s-6xl">ÖPNV</div></div>
+        <div class="row"><div class="meta"><div class="style-name">5xl</div><dl><div class="meta-line">value: <span class="r">48px</span></div><div class="meta-line">responsive: <span class="r">fluid ↓30px</span></div></dl><span class="usage component">component-only</span></div><div class="sample s-sample s-5xl">ÖPNV</div></div>
+        <div class="row"><div class="meta"><div class="style-name">4xl</div><dl><div class="meta-line">value: <span class="r">36px</span></div><div class="meta-line">responsive: <span class="r">fluid ↓26px</span></div></dl><span class="usage editorial">editorial · h2</span></div><div class="sample s-sample s-4xl">ÖPNV</div></div>
+        <div class="row"><div class="meta"><div class="style-name">3xl</div><dl><div class="meta-line">value: <span class="r">30px</span></div><div class="meta-line">responsive: <span class="r">fluid ↓23px</span></div></dl><span class="usage component">component-only</span></div><div class="sample s-sample s-3xl">ÖPNV</div></div>
+        <div class="row"><div class="meta"><div class="style-name">2xl</div><dl><div class="meta-line">value: <span class="r">24px</span></div><div class="meta-line">responsive: <span class="r">fluid ↓20px</span></div></dl><span class="usage editorial">editorial · h3</span></div><div class="sample s-sample s-2xl">ÖPNV verbindet Systeme</div></div>
+        <div class="row"><div class="meta"><div class="style-name">xl</div><dl><div class="meta-line">value: <span class="r">20px</span></div><div class="meta-line">responsive: <span class="r">fixed</span></div></dl><span class="usage editorial">editorial · h4</span></div><div class="sample s-sample s-xl">ÖPNV verbindet Systeme</div></div>
+        <div class="row"><div class="meta"><div class="style-name">lg</div><dl><div class="meta-line">value: <span class="r">18px</span></div><div class="meta-line">responsive: <span class="r">fixed</span></div></dl><span class="usage editorial">editorial · h5</span></div><div class="sample s-sample s-lg">ÖPNV verbindet Systeme</div></div>
+        <div class="row"><div class="meta"><div class="style-name">base</div><dl><div class="meta-line">value: <span class="r">16px</span></div><div class="meta-line">responsive: <span class="r">fixed</span></div></dl><span class="usage editorial">editorial · h6 · Quote · body</span></div><div class="sample s-sample s-base">ÖPNV verbindet Systeme zu einem Netz</div></div>
+        <div class="row"><div class="meta"><div class="style-name">sm</div><dl><div class="meta-line">value: <span class="r">14px</span></div><div class="meta-line">responsive: <span class="r">fixed</span></div></dl><span class="usage editorial">editorial · label</span></div><div class="sample s-sample s-sm">ÖPNV verbindet Systeme zu einem Netz</div></div>
+        <div class="row"><div class="meta"><div class="style-name">xs</div><dl><div class="meta-line">value: <span class="r">12px</span></div><div class="meta-line">responsive: <span class="r">fixed</span></div></dl><span class="usage component">component-only</span></div><div class="sample s-sample s-xs">ÖPNV verbindet Systeme zu einem Netz</div></div>
+        <div class="row"><div class="meta"><div class="style-name">xxs</div><dl><div class="meta-line">value: <span class="r">11px</span></div><div class="meta-line">responsive: <span class="r">fixed</span></div></dl><span class="usage component">component-only</span></div><div class="sample s-sample s-xxs">ÖPNV verbindet Systeme zu einem Netz</div></div>
+      </div>
+
+      <!-- Primitives ref -->
+      <div class="sub">
+        <div class="sub-head"><p class="sub-kicker">Primitives · font</p><h3 class="sub-title">Family &amp; letter-spacing tokens</h3></div>
+        <div class="ref-grid">
+          <table class="ref-table"><caption>font / family</caption><tbody>
+            <tr><td>font-sans</td><td>Google Sans</td></tr>
+            <tr><td>font-serif</td><td>Lora</td></tr>
+            <tr><td>font-italic</td><td>Lora Italic</td></tr>
+          </tbody></table>
+          <table class="ref-table"><caption>font / letter-spacing</caption><tbody>
+            <tr><td>tracking-tighter</td><td>-0.8px</td></tr>
+            <tr><td>tracking-tight</td><td>-0.4px</td></tr>
+            <tr><td>tracking-normal</td><td>0px</td></tr>
+            <tr><td>tracking-wide</td><td>0.4px</td></tr>
+            <tr><td>tracking-wider</td><td>0.8px</td></tr>
+            <tr><td>tracking-widest</td><td>1.6px</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ BUTTON ══════════ -->
+    <section class="sec" id="button">
+      <div class="sec-head">
+        <p class="sec-kicker">Component</p>
+        <h2 class="sec-title">Button</h2>
+        <p class="sec-note">Three variants — <strong>Primary</strong> (Flowbite "Brand"), <strong>Secondary</strong> (Flowbite "Tertiary"), and <strong>Ghost</strong>. Google Sans medium, <code>rounded-base</code> (8px). Each with default, hover, and disabled states.</p>
+      </div>
+
+      <div class="sub">
+        <div class="sub-head"><h3 class="sub-title">Variants &amp; states</h3></div>
+        <div class="btn-grid">
+          <span></span>
+          <span class="col-head">Default</span>
+          <span class="col-head">Hover</span>
+          <span class="col-head">Disabled</span>
+
+          <span class="row-head">Primary</span>
+          <a href="#" class="btn btn-primary">Button text</a>
+          <a href="#" class="btn btn-primary is-hover">Button text</a>
+          <button class="btn btn-primary" disabled>Button text</button>
+
+          <span class="row-head">Secondary</span>
+          <a href="#" class="btn btn-secondary">Button text</a>
+          <a href="#" class="btn btn-secondary is-hover">Button text</a>
+          <button class="btn btn-secondary" disabled>Button text</button>
+
+          <span class="row-head">Ghost</span>
+          <a href="#" class="btn btn-ghost">Button text</a>
+          <a href="#" class="btn btn-ghost is-hover">Button text</a>
+          <button class="btn btn-ghost" disabled>Button text</button>
+        </div>
+      </div>
+
+      <div class="sub">
+        <div class="sub-head"><h3 class="sub-title">Sizes</h3><p class="sub-note">xs · sm · base · lg · xl — text-xs(12) / text-sm(14) / text-base(16) with stepped padding.</p></div>
+        <div class="badge-row" style="align-items:flex-end;">
+          <a href="#" class="btn btn-primary btn-xs">Button text</a>
+          <a href="#" class="btn btn-primary btn-sm">Button text</a>
+          <a href="#" class="btn btn-primary">Button text</a>
+          <a href="#" class="btn btn-primary btn-lg">Button text</a>
+          <a href="#" class="btn btn-primary btn-xl">Button text</a>
+        </div>
+      </div>
+
+      <div class="sub">
+        <div class="sub-head"><h3 class="sub-title">With icon</h3><p class="sub-note">Optional leading / trailing icon (16px). Hover the live buttons to see the real transition.</p></div>
+        <div class="badge-row">
+          <a href="#" class="btn btn-primary">Button text <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          <a href="#" class="btn btn-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg> Button text</a>
+          <a href="#" class="btn btn-ghost">Button text <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ BADGE ══════════ -->
+    <section class="sec" id="badge">
+      <div class="sec-head">
+        <p class="sec-kicker">Component</p>
+        <h2 class="sec-title">Badge</h2>
+        <p class="sec-note">One neutral badge — our only variant in use today — for category / topic labels. Google Sans, weight 400, <code>rounded-full</code>, 1px border. Used with or without a leading icon.</p>
+      </div>
+
+      <div class="sub">
+        <div class="sub-head"><h3 class="sub-title">Without icon</h3></div>
+        <div class="badge-row">
+          <span class="badge">Betrieb</span>
+          <span class="badge">Fahrgastinformation</span>
+          <span class="badge">Fahrzeug</span>
+          <span class="badge">Qualitätsmanagement</span>
+          <span class="badge">Reporting &amp; Analyse</span>
+        </div>
+      </div>
+
+      <div class="sub">
+        <div class="sub-head"><h3 class="sub-title">With icon</h3><p class="sub-note">Optional leading icon (12px) in the subtle text colour.</p></div>
+        <div class="badge-row">
+          <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 8.4 8.4 3.6a2 2 0 0 1 1.4-.6H19a2 2 0 0 1 2 2v9.2a2 2 0 0 1-.6 1.4l-4.8 4.8a2 2 0 0 1-2.8 0l-6.4-6.4a2 2 0 0 1 0-2.8Z"/><path d="M15 9h.01"/></svg>Betrieb</span>
+          <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 8.4 8.4 3.6a2 2 0 0 1 1.4-.6H19a2 2 0 0 1 2 2v9.2a2 2 0 0 1-.6 1.4l-4.8 4.8a2 2 0 0 1-2.8 0l-6.4-6.4a2 2 0 0 1 0-2.8Z"/><path d="M15 9h.01"/></svg>Fahrgastinformation</span>
+          <span class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 8.4 8.4 3.6a2 2 0 0 1 1.4-.6H19a2 2 0 0 1 2 2v9.2a2 2 0 0 1-.6 1.4l-4.8 4.8a2 2 0 0 1-2.8 0l-6.4-6.4a2 2 0 0 1 0-2.8Z"/><path d="M15 9h.01"/></svg>Reporting &amp; Analyse</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ CARD ══════════ -->
+    <section class="sec" id="card">
+      <div class="sec-head">
+        <p class="sec-kicker">Component</p>
+        <h2 class="sec-title">Card</h2>
+        <p class="sec-note">One card, eight variants. Four parts toggle over a constant body + link: <strong>media</strong>, <strong>overline</strong>, <strong>heading</strong>, and <strong>badges</strong> (real neutral badge).</p>
+      </div>
+
+      <div class="sub">
+        <div class="sub-head"><p class="sub-kicker">Text only</p><h3 class="sub-title">Without media</h3></div>
+        <div class="grid">
+          <div class="variant"><p class="variant-label">body · link</p><article class="card">
+            <p class="card-body">In today's fast-paced digital landscape, fostering seamless collaboration among Developers and IT Operations.</p>
+            <a href="#" class="card-link">Read more<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          </article></div>
+          <div class="variant"><p class="variant-label">heading · body · link</p><article class="card">
+            <h3 class="card-title">Streamlining your design process with Flowbite.</h3>
+            <p class="card-body">In today's fast-paced digital landscape, fostering seamless collaboration among Developers and IT Operations.</p>
+            <a href="#" class="card-link">Read more<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          </article></div>
+          <div class="variant"><p class="variant-label">overline · heading · body · link</p><article class="card">
+            <p class="card-overline">Modular statt geschlossener Systeme.</p>
+            <h3 class="card-title">Streamlining your design process with Flowbite.</h3>
+            <p class="card-body">In today's fast-paced digital landscape, fostering seamless collaboration among Developers and IT Operations.</p>
+            <a href="#" class="card-link">Read more<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          </article></div>
+          <div class="variant"><p class="variant-label">overline · heading · badges · link</p><article class="card">
+            <p class="card-overline">Modular statt geschlossener Systeme.</p>
+            <h3 class="card-title">Streamlining your design process with Flowbite.</h3>
+            <p class="card-body">In today's fast-paced digital landscape, fostering seamless collaboration among Developers and IT Operations.</p>
+            <div class="card-badges"><span class="badge">Betrieb</span><span class="badge">Fahrgastinformation</span></div>
+            <a href="#" class="card-link">Read more<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          </article></div>
+        </div>
+      </div>
+
+      <div class="sub">
+        <div class="sub-head"><p class="sub-kicker">With media</p><h3 class="sub-title">With image</h3></div>
+        <div class="grid">
+          <div class="variant"><p class="variant-label">media · body · link</p><article class="card">
+            <div class="card-media"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 19.5h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Z"/></svg></div>
+            <p class="card-body">In today's fast-paced digital landscape, fostering seamless collaboration among Developers and IT Operations.</p>
+            <a href="#" class="card-link">Read more<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          </article></div>
+          <div class="variant"><p class="variant-label">media · heading · body · link</p><article class="card">
+            <div class="card-media"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 19.5h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Z"/></svg></div>
+            <h3 class="card-title">Streamlining your design process with Flowbite.</h3>
+            <p class="card-body">In today's fast-paced digital landscape, fostering seamless collaboration among Developers and IT Operations.</p>
+            <a href="#" class="card-link">Read more<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          </article></div>
+          <div class="variant"><p class="variant-label">media · overline · heading · body · link</p><article class="card">
+            <div class="card-media"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 19.5h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Z"/></svg></div>
+            <p class="card-overline">Modular statt geschlossener Systeme.</p>
+            <h3 class="card-title">Streamlining your design process with Flowbite.</h3>
+            <p class="card-body">In today's fast-paced digital landscape, fostering seamless collaboration among Developers and IT Operations.</p>
+            <a href="#" class="card-link">Read more<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          </article></div>
+          <div class="variant"><p class="variant-label">media · overline · heading · badges · link</p><article class="card">
+            <div class="card-media"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 19.5h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Z"/></svg></div>
+            <p class="card-overline">Modular statt geschlossener Systeme.</p>
+            <h3 class="card-title">Streamlining your design process with Flowbite.</h3>
+            <p class="card-body">In today's fast-paced digital landscape, fostering seamless collaboration among Developers and IT Operations.</p>
+            <div class="card-badges"><span class="badge">Fahrzeug</span><span class="badge">Qualitätsmanagement</span></div>
+            <a href="#" class="card-link">Read more<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          </article></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ CONTENT BLOCK ══════════ -->
+    <section class="sec" id="content-block">
+      <div class="sec-head">
+        <p class="sec-kicker">Component</p>
+        <h2 class="sec-title">Content Block</h2>
+        <p class="sec-note">Responsive two-column block — stacks below 768px. Heading uses the fluid h2 token; body, overline, list and button all reference the shared tokens.</p>
+      </div>
+      <div class="sub">
+        <div class="sub-head"><h3 class="sub-title">Desktop · tablet · mobile</h3></div>
+        <article class="cb-block">
+          <div class="cb-media"><img src="http://localhost:3845/assets/2546c569dd18c0faf80b70053870a95c520ab21c.png" alt="ETC Solutions — Personal im Nahverkehrsfahrzeug" onerror="this.style.display='none'"></div>
+          <div class="cb-content">
+            <div class="cb-hg">
+              <p class="cb-overline">Overline</p>
+              <h3 class="cb-heading">Die Digitalisierung des ÖV beginnt mit dem Fahrzeug</h3>
+              <p class="cb-body">ETC Solutions liefert skalierbare Lösungen für den gesamten ÖPNV — von der integrierten Leitstelle bis zum volldigitalen Fahrzeug. Verlässlich, erprobt und international bewährt.</p>
+            </div>
+            <ul class="cb-list">
+              <li class="cb-list-item"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.098 19.902a3.75 3.75 0 0 0 5.304 0l6.401-6.402M6.75 21A3.75 3.75 0 0 1 3 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 0 0 3.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.88 2.88M6.75 17.25h.008v.008H6.75v-.008Z"/></svg></span><span>Modern &amp; Scalable Design</span></li>
+              <li class="cb-list-item"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13.5V3.75m0 9.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 9.75V10.5"/></svg></span><span>Customizable &amp; Theming Support</span></li>
+              <li class="cb-list-item"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H9v1.5H7.5v1.5H6v1.5H3.75a.75.75 0 0 1-.75-.75v-2.69c0-.298.119-.585.33-.796l5.518-5.518c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z"/></svg></span><span>Developer-Friendly API</span></li>
+            </ul>
+            <p class="cb-body">Whether you're creating a small project or a large-scale enterprise application, our UI/UX library gives you the tools to bring your vision to life.</p>
+            <a href="#" class="cb-btn"><span>Read more</span><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+  (function () {
+    var sel = '.e-h1,.e-h2,.e-h3,.s-2xl,.s-3xl,.s-4xl,.s-5xl,.s-6xl,.s-7xl,.s-8xl,.s-9xl';
+    var pairs = Array.prototype.slice.call(document.querySelectorAll(sel)).map(function (el) {
+      var lab = document.createElement('span'); lab.className = 'live-size'; el.appendChild(lab);
+      return { el: el, lab: lab };
+    });
+    function update(){ pairs.forEach(function(p){ p.lab.textContent = '↔ ' + Math.round(parseFloat(getComputedStyle(p.el).fontSize)) + 'px'; }); }
+    var raf; function onResize(){ if (raf) cancelAnimationFrame(raf); raf = requestAnimationFrame(update); }
+    update(); window.addEventListener('resize', onResize);
+  })();
+
+  // Scrollspy — highlight the topnav link for the section in view
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.topnav a'));
+    if (!links.length) return;
+    var map = {};
+    links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+    var sections = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+    function setActive(id) { links.forEach(function (a) { a.classList.toggle('active', a === map[id]); }); }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) setActive(e.target.id); });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    sections.forEach(function (s) { io.observe(s); });
+  })();
+  </script>
+</body>
+</html>
