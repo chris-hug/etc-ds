@@ -113,6 +113,8 @@
 
   /* ── Typography spec rows ── */
   .row { display:grid; grid-template-columns:232px 1fr; gap:80px; padding:18px 0 40px; border-bottom:1px solid var(--border-hair); align-items:start; }
+  /* Editorial styles: stack annotations above the sample (single column) at all widths */
+  .sub-stack .row { grid-template-columns:1fr; gap:16px; padding:20px 0 36px; }
   .meta .style-name { font-family:var(--font-sans); font-size:14px; font-weight:500; color:var(--text-heading); margin-bottom:14px; }
   .meta dl { display:grid; gap:6px; }
   .meta-line { font-family:var(--font-sans); font-size:12px; line-height:1.5; color:var(--text-body-subtle); }
@@ -282,7 +284,7 @@
       </div>
 
       <!-- Editorial -->
-      <div class="sub">
+      <div class="sub sub-stack">
         <div class="sub-head"><p class="sub-kicker">Redaktionell verfügbar</p><h3 class="sub-title">Editorial Text Styles</h3><p class="sub-note">Nine named styles. Headings &amp; Quote use Lora; body &amp; label use Google Sans. h1–h3 are fluid.</p></div>
 
         <div class="row"><div class="meta"><div class="style-name">h1</div><dl>
@@ -290,7 +292,7 @@
           <div class="meta-line">size: <span class="v">text-6xl</span> <span class="r">60px max · fluid ↓34px</span></div>
           <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
           <div class="meta-line">tracking: <span class="v">tracking-tighter</span> <span class="r">-0.8px</span></div>
-          <div class="meta-line">line-height: <span class="v">leading-none</span> <span class="r">60px</span></div>
+          <div class="meta-line">line-height: <span class="v">leading-none</span> <span class="r">60px max · fluid ↓34px</span></div>
         </dl></div><div class="sample e-h1">ÖPNV kennt viele Systeme. ETC verbindet sie alle.</div></div>
 
         <div class="row"><div class="meta"><div class="style-name">h2</div><dl>
@@ -298,7 +300,7 @@
           <div class="meta-line">size: <span class="v">text-4xl</span> <span class="r">36px max · fluid ↓26px</span></div>
           <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
           <div class="meta-line">tracking: <span class="v">tracking-tight</span> <span class="r">-0.4px</span></div>
-          <div class="meta-line">line-height: <span class="v">leading-9</span> <span class="r">40px</span></div>
+          <div class="meta-line">line-height: <span class="v">leading-9</span> <span class="r">40px max · fluid ↓29px</span></div>
         </dl></div><div class="sample e-h2">Die Digitalisierung des ÖV beginnt mit dem Fahrzeug</div></div>
 
         <div class="row"><div class="meta"><div class="style-name">h3</div><dl>
@@ -306,7 +308,7 @@
           <div class="meta-line">size: <span class="v">text-2xl</span> <span class="r">24px max · fluid ↓20px</span></div>
           <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
           <div class="meta-line">tracking: <span class="v">tracking-tight</span> <span class="r">-0.4px</span></div>
-          <div class="meta-line">line-height: <span class="v">leading-7</span> <span class="r">28px</span></div>
+          <div class="meta-line">line-height: <span class="v">leading-7</span> <span class="r">28px max · fluid ↓23px</span></div>
         </dl></div><div class="sample e-h3">Die Digitalisierung des ÖV beginnt mit dem Fahrzeug</div></div>
 
         <div class="row"><div class="meta"><div class="style-name">h4</div><dl>
@@ -589,7 +591,7 @@
       var lab = document.createElement('span'); lab.className = 'live-size'; el.appendChild(lab);
       return { el: el, lab: lab };
     });
-    function update(){ pairs.forEach(function(p){ p.lab.textContent = '↔ ' + Math.round(parseFloat(getComputedStyle(p.el).fontSize)) + 'px'; }); }
+    function update(){ pairs.forEach(function(p){ var s=getComputedStyle(p.el); var fs=Math.round(parseFloat(s.fontSize)); var lh=Math.round(parseFloat(s.lineHeight)); p.lab.textContent = 'size ' + fs + 'px · lh ' + lh + 'px'; }); }
     var raf; function onResize(){ if (raf) cancelAnimationFrame(raf); raf = requestAnimationFrame(update); }
     update(); window.addEventListener('resize', onResize);
   })();
