@@ -126,12 +126,12 @@
   .usage.component { color:var(--text-body); background:var(--bg-tag-neutral); }
   .sample { color:var(--text-heading); min-width:0; }
 
-  .e-h1 { font-family:var(--font-serif); font-weight:400; font-size:var(--fluid-6xl); line-height:1.0;   letter-spacing:-0.0133em; }
-  .e-h2 { font-family:var(--font-serif); font-weight:400; font-size:var(--fluid-4xl); line-height:1.111; letter-spacing:-0.0111em; }
-  .e-h3 { font-family:var(--font-serif); font-weight:400; font-size:var(--fluid-2xl); line-height:1.167; letter-spacing:-0.0167em; }
-  .e-h4 { font-family:var(--font-serif); font-weight:400; font-size:var(--size-xl);   line-height:24px; letter-spacing:var(--tracking-tight); }
-  .e-h5 { font-family:var(--font-serif); font-weight:400; font-size:var(--size-lg);   line-height:24px; letter-spacing:var(--tracking-tight); }
-  .e-h6 { font-family:var(--font-serif); font-weight:400; font-size:var(--size-base); line-height:20px; letter-spacing:var(--tracking-tight); }
+  .e-h1 { font-family:var(--font-serif); font-weight:400; font-size:var(--fluid-6xl); line-height:1.05; letter-spacing:-0.0133em; }
+  .e-h2 { font-family:var(--font-serif); font-weight:400; font-size:var(--fluid-4xl); line-height:1.2;  letter-spacing:-0.0111em; }
+  .e-h3 { font-family:var(--font-serif); font-weight:400; font-size:var(--fluid-2xl); line-height:1.2;  letter-spacing:-0.0167em; }
+  .e-h4 { font-family:var(--font-serif); font-weight:400; font-size:var(--size-xl);   line-height:1.2;  letter-spacing:var(--tracking-tight); }
+  .e-h5 { font-family:var(--font-serif); font-weight:400; font-size:var(--size-lg);   line-height:1.2;  letter-spacing:var(--tracking-tight); }
+  .e-h6 { font-family:var(--font-serif); font-weight:400; font-size:var(--size-base); line-height:1.2;  letter-spacing:var(--tracking-tight); }
   .e-quote { font-family:var(--font-serif); font-weight:400; font-style:italic; font-size:var(--size-base); line-height:20px; letter-spacing:var(--tracking-tight); }
   .e-body  { font-family:var(--font-sans); font-weight:400; font-size:var(--size-base); line-height:24px; max-width:340px; }
   .e-label { font-family:var(--font-sans); font-weight:400; font-size:var(--size-sm);   line-height:20px; max-width:340px; }
@@ -234,7 +234,7 @@
   @media (min-width:768px) { .cb-content { flex:1 1 0; max-width:672px; } }
   .cb-hg { display:flex; flex-direction:column; gap:var(--space-4); width:100%; }
   .cb-overline { font-family:var(--font-sans); font-size:var(--size-sm); font-weight:500; line-height:1.25; color:var(--text-fg-accent); }
-  .cb-heading { font-family:var(--font-serif); font-size:var(--fluid-4xl); font-weight:400; line-height:1.25; letter-spacing:-0.0111em; color:var(--text-heading); }
+  .cb-heading { font-family:var(--font-serif); font-size:var(--fluid-4xl); font-weight:400; line-height:1.2; letter-spacing:-0.0111em; color:var(--text-heading); }
   .cb-body { font-family:var(--font-sans); font-size:var(--size-base); font-weight:400; line-height:24px; color:var(--text-body); }
   .cb-list { display:flex; flex-direction:column; gap:var(--space-4); width:100%; list-style:none; }
   .cb-list-item { display:flex; align-items:center; gap:var(--space-1-5); }
@@ -292,7 +292,7 @@
           <div class="meta-line">size: <span class="v">text-6xl</span> <span class="r">60px max · fluid ↓34px</span></div>
           <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
           <div class="meta-line">tracking: <span class="v">tracking-tighter</span> <span class="r">-0.8px</span></div>
-          <div class="meta-line">line-height: <span class="v">leading-none</span> <span class="r">60px max · fluid ↓34px</span></div>
+          <div class="meta-line">line-height: <span class="v">105%</span></div>
         </dl></div><div class="sample e-h1">ÖPNV kennt viele Systeme. ETC verbindet sie alle.</div></div>
 
         <div class="row"><div class="meta"><div class="style-name">h2</div><dl>
@@ -300,7 +300,7 @@
           <div class="meta-line">size: <span class="v">text-4xl</span> <span class="r">36px max · fluid ↓26px</span></div>
           <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
           <div class="meta-line">tracking: <span class="v">tracking-tight</span> <span class="r">-0.4px</span></div>
-          <div class="meta-line">line-height: <span class="v">leading-9</span> <span class="r">40px max · fluid ↓29px</span></div>
+          <div class="meta-line">line-height: <span class="v">120%</span></div>
         </dl></div><div class="sample e-h2">Die Digitalisierung des ÖV beginnt mit dem Fahrzeug</div></div>
 
         <div class="row"><div class="meta"><div class="style-name">h3</div><dl>
@@ -308,7 +308,7 @@
           <div class="meta-line">size: <span class="v">text-2xl</span> <span class="r">24px max · fluid ↓20px</span></div>
           <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
           <div class="meta-line">tracking: <span class="v">tracking-tight</span> <span class="r">-0.4px</span></div>
-          <div class="meta-line">line-height: <span class="v">leading-7</span> <span class="r">28px max · fluid ↓23px</span></div>
+          <div class="meta-line">line-height: <span class="v">120%</span></div>
         </dl></div><div class="sample e-h3">Die Digitalisierung des ÖV beginnt mit dem Fahrzeug</div></div>
 
         <div class="row"><div class="meta"><div class="style-name">h4</div><dl>
@@ -316,7 +316,7 @@
           <div class="meta-line">size: <span class="v">text-xl</span> <span class="r">20px</span></div>
           <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
           <div class="meta-line">tracking: <span class="v">tracking-tight</span> <span class="r">-0.4px</span></div>
-          <div class="meta-line">line-height: <span class="v">leading-6</span> <span class="r">24px</span></div>
+          <div class="meta-line">line-height: <span class="v">120%</span></div>
         </dl></div><div class="sample e-h4">Die Digitalisierung des ÖV beginnt mit dem Fahrzeug</div></div>
 
         <div class="row"><div class="meta"><div class="style-name">h5</div><dl>
@@ -324,7 +324,7 @@
           <div class="meta-line">size: <span class="v">text-lg</span> <span class="r">18px</span></div>
           <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
           <div class="meta-line">tracking: <span class="v">tracking-tight</span> <span class="r">-0.4px</span></div>
-          <div class="meta-line">line-height: <span class="v">leading-6</span> <span class="r">24px</span></div>
+          <div class="meta-line">line-height: <span class="v">120%</span></div>
         </dl></div><div class="sample e-h5">Die Digitalisierung des ÖV beginnt mit dem Fahrzeug</div></div>
 
         <div class="row"><div class="meta"><div class="style-name">h6</div><dl>
@@ -332,7 +332,7 @@
           <div class="meta-line">size: <span class="v">text-base</span> <span class="r">16px</span></div>
           <div class="meta-line">weight: <span class="v">normal</span> <span class="r">400</span></div>
           <div class="meta-line">tracking: <span class="v">tracking-tight</span> <span class="r">-0.4px</span></div>
-          <div class="meta-line">line-height: <span class="v">leading-5</span> <span class="r">20px</span></div>
+          <div class="meta-line">line-height: <span class="v">120%</span></div>
         </dl></div><div class="sample e-h6">Die Digitalisierung des ÖV beginnt mit dem Fahrzeug</div></div>
 
         <div class="row"><div class="meta"><div class="style-name">Quote</div><dl>
